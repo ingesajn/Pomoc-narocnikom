@@ -3,8 +3,27 @@ import time
 import datetime
 
 
-datoteka_baze = "Baza.sqlite3"
+datoteka_baze = "Baza.sqlite3"     # povezava z bazo
 
+
+def podatkiZaIzpis(narocnik):
+
+
+    with baza:
+        cur = baza.cursor()
+        cur.execute("""SELECT Telefonska_stevilka, Ime, Priimek, ImePaketa FROM Narocnik JOIN Narocniski_paketi ON
+Narocnik.Narocniski_paket=Narocniski_paketi.id WHERE Narocnik.id = ? """, [narocnik])    
+        (Telefonska_stevilka, Ime, Priimek, Narocniski_paket) = cur.fetchone()
+
+ 
+    podatki = {
+        
+        "Telefonska številka": Telefonska_stevilka,
+        "Ime": Ime,
+        "Priimek": Priimek}
+    
+
+    return podatki
 
 
 def cena_telefona_v_prosti_prodaji(telefon):
@@ -45,14 +64,6 @@ def moznost_nove_vezave_in_menjave_paketa(narocnik):
     else:
         print('Izberite si nov naročniški paket in željeni telefon!')
 
-#iskanje telefonov po lastnostih
-##def telefon_po_lastnostih(seznam_lastnosti):
-##    '''Funkcija prejme seznam id-jev lastnosti in vrne seznam imen telefonov'''
-##    
-##    lastnost = c.execute("""SELECT id FROM lastnosti""")
-##    telefon = c.execute("""SELECT id FROM Telefoni""")
-##
-##
 
 
 
